@@ -5,7 +5,7 @@ using UnityEngine;
 public class organism : MonoBehaviour
 {
     public bool isAlive = false;
-
+    public int neigbours;
     void Update()
     {
         if(isAlive)
