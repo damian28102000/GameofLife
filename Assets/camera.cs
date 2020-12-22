@@ -4,25 +4,20 @@ using UnityEngine;
 
 public class camera : MonoBehaviour
 {
-    float mainSpeed = 50.0f; 
-    float camSens = 0.25f; 
-    private Vector3 lastMouse = new Vector3(255, 255, 255); 
-    private float totalRun = 1.0f;
+    public float speed = 50.0f; 
+    public float camSens = 0.25f; 
+    private Vector3 lastMouse = new Vector3(255, 125, 255); 
 
     void Update()
     {
+        // Euler angles logic - mouse 
         lastMouse = Input.mousePosition - lastMouse;
-        lastMouse = new Vector3(-lastMouse.y * camSens, lastMouse.x * camSens, 0);
-        lastMouse = new Vector3(transform.eulerAngles.x + lastMouse.x, transform.eulerAngles.y + lastMouse.y, 0);
-        transform.eulerAngles = lastMouse;
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x -lastMouse.y * camSens, transform.eulerAngles.y + lastMouse.x * camSens, 0);
         lastMouse = Input.mousePosition;
 
-        float f = 0.0f;
+        // Transform camera
         Vector3 p = GetBaseInput();
-        totalRun = Mathf.Clamp(totalRun * 0.5f, 1f, 1000f);
-        p = p * mainSpeed;
-
-        p = p * Time.deltaTime;
+        p = p * speed * Time.deltaTime;
         transform.Translate(p);
 
         if(Input.GetKey("escape"))
@@ -33,23 +28,23 @@ public class camera : MonoBehaviour
 
     private Vector3 GetBaseInput()
     {
-        Vector3 p_Velocity = new Vector3();
+        Vector3 velocity = new Vector3();
         if (Input.GetKey(KeyCode.W))
         {
-            p_Velocity += new Vector3(0, 0, 1);
+            velocity += new Vector3(0, 0, 1);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            p_Velocity += new Vector3(0, 0, -1);
+            velocity += new Vector3(0, 0, -1);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            p_Velocity += new Vector3(-1, 0, 0);
+            velocity += new Vector3(-1, 0, 0);
         }
         if (Input.GetKey(KeyCode.D))
         {
-            p_Velocity += new Vector3(1, 0, 0);
+            velocity += new Vector3(1, 0, 0);
         }
-        return p_Velocity;
+        return velocity;
     }
 }

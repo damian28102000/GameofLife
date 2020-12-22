@@ -30,7 +30,7 @@ public class game : MonoBehaviour
         }
 
         /*
-        // Kit for test
+        // Kit for test algorithm 
         spawnees[1, 0].GetComponent<organism>().isAlive = true;
         spawnees[0, 1].GetComponent<organism>().isAlive = true;
         spawnees[0, 2].GetComponent<organism>().isAlive = true;
@@ -41,12 +41,14 @@ public class game : MonoBehaviour
 
     void Update()
     {
+        // Every given time
         float currentTime = Time.time;
         if (currentTime - lastTime >=everySeconds)
         {
             ResetNeighbours();
             CountNeighbours();
 
+            // Update surface taking into account new neigbours
             for (int col = 0; col < height; col++)
             {
                 for (int row = 0; row < width; row++)
@@ -66,10 +68,12 @@ public class game : MonoBehaviour
                     }
                 }
             }
+
             lastTime = currentTime;
         }
     }
 
+    // Clear board 
     private void ResetNeighbours()
     {
         for (int col = 0, i = 0; col < height; col++)
@@ -81,6 +85,7 @@ public class game : MonoBehaviour
         }
     }
 
+    // Count neighbours
     private void CountNeighbours()
     {
         for (int col = 0, i = 0; col < height; col++)
@@ -125,6 +130,7 @@ public class game : MonoBehaviour
 
                 if(col != height-1 && row != width-1)
                 {
+                    // Check if the top-right neighbor is alive
                     if (spawnees[row+1, col + 1].GetComponent<organism>().isAlive == true)
                     {
                         spawnees[row, col].GetComponent<organism>().neigbours++;
@@ -133,6 +139,7 @@ public class game : MonoBehaviour
 
                 if (col != height - 1 && row != 0)
                 {
+                    // Check if the top-left neighbor is alive
                     if (spawnees[row -1, col + 1].GetComponent<organism>().isAlive == true)
                     {
                         spawnees[row, col].GetComponent<organism>().neigbours++;
@@ -141,6 +148,7 @@ public class game : MonoBehaviour
 
                 if (col != 0 && row != width -1)
                 {
+                    // Check if the bottom-right neighbor is alive
                     if (spawnees[row + 1, col - 1].GetComponent<organism>().isAlive == true)
                     {
                         spawnees[row, col].GetComponent<organism>().neigbours++;
@@ -149,6 +157,7 @@ public class game : MonoBehaviour
 
                 if (col != 0 && row != 0)
                 {
+                    // Check if the bottom-left neighbor is alive
                     if (spawnees[row-1, col - 1].GetComponent<organism>().isAlive == true)
                     {
                         spawnees[row, col].GetComponent<organism>().neigbours++;
