@@ -7,6 +7,7 @@ public class game : MonoBehaviour
     public GameObject prefab;
     public GameObject[,] spawnees;
     float lastTime;
+    public float everySeconds;
     public int width;
     public int height;
 
@@ -23,33 +24,39 @@ public class game : MonoBehaviour
         }
 
         // Filling the surface with randomly living organisms
-        /*for(int i =0;i<5;i++)
+        for(int i =0;i<height*width;i++)
         {
             spawnees[Random.Range(0,width), Random.Range(0, height)].GetComponent<organism>().isAlive = true;
         }
-        */
+
+        /*
+        // Kit for test
         spawnees[1, 0].GetComponent<organism>().isAlive = true;
-        spawnees[2, 1].GetComponent<organism>().isAlive = true;
+        spawnees[0, 1].GetComponent<organism>().isAlive = true;
         spawnees[0, 2].GetComponent<organism>().isAlive = true;
         spawnees[1, 2].GetComponent<organism>().isAlive = true;
         spawnees[2, 2].GetComponent<organism>().isAlive = true;
-
+        */
     }
 
     void Update()
     {
         float currentTime = Time.time;
-        if (Input.GetKeyDown(KeyCode.X)/*currentTime - lastTime >=3*/)
+        if (currentTime - lastTime >=everySeconds)
         {
             ResetNeighbours();
             CountNeighbours();
 
-            for (int col = 0, i = 0; col < height; col++)
+            for (int col = 0; col < height; col++)
             {
-                for (int row = 0; row < width; row++, i++)
+                for (int row = 0; row < width; row++)
                 {
-                    Debug.Log("Organizm [" +row+","+col+"] has "+ spawnees[row, col].GetComponent<organism>().neigbours);
-                    if (spawnees[row, col].GetComponent<organism>().neigbours == 2 || spawnees[row, col].GetComponent<organism>().neigbours == 3)
+                    //Debug.Log("Organizm [" +0+","+3+"] has "+ spawnees[0, 3].GetComponent<organism>().neigbours);
+                    if (spawnees[row, col].GetComponent<organism>().isAlive == true && (spawnees[row, col].GetComponent<organism>().neigbours == 2 || spawnees[row, col].GetComponent<organism>().neigbours == 3))
+                    {
+                        spawnees[row, col].GetComponent<organism>().isAlive = true;
+                    }
+                    else if (spawnees[row, col].GetComponent<organism>().isAlive == false && spawnees[row, col].GetComponent<organism>().neigbours == 3)
                     {
                         spawnees[row, col].GetComponent<organism>().isAlive = true;
                     }
